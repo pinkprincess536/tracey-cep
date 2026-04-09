@@ -1,0 +1,32 @@
+{
+  "name": "tracey-cep",
+  "version": "1.0.0",
+  "description": "\"# Tracey-CEP\"",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pinkprincess536/Tracey-CEP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/pinkprincess536/Tracey-CEP/issues"
+  },
+  "homepage": "https://github.com/pinkprincess536/Tracey-CEP#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1",
+    "express-session": "^1.18.2",
+    "mongoose": "^9.4.1",
+    "nodemon": "^3.1.14",
+    "passport": "^0.7.0",
+    "passport-azure-ad": "^4.3.5"
+  }
+}
