@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-
+require("./user"); // ✅ force Mongoose to register User model
 const itemSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
-      trim: true,        // removes extra spaces
+      trim: true,
     },
 
     description: {
@@ -15,41 +15,37 @@ const itemSchema = new mongoose.Schema(
 
     category: {
       type: String,
-      enum: ['Electronics', 'Clothing', 'Documents', 'Keys', 'Wallet', 'Other'],
+      enum: ['Electronics', 'Clothing', 'Documents', 'Keys', 'Wallet', 'Bags', 'Other'],
       required: true,
     },
 
     type: {
       type: String,
-      enum: ['lost', 'found'],   // is this a lost item or found item?
+      enum: ['lost', 'found'],
       required: true,
     },
 
     imageUrl: {
       type: String,
-      default: '',  
-       required: true,             // empty until image is uploaded
+      default: '', // ✅ fixed
     },
 
     location: {
       type: String,
-      required: true,            // where was it lost/found?
+      required: true,
     },
 
     date: {
       type: Date,
-      required: true,            // when was it lost/found?
+      required: true,
     },
 
-    postedBy: {
-      type: String,
-      required: true,            // we'll store user email for now
-    },
+    
 
     status: {
       type: String,
       enum: ['pending', 'approved', 'rejected', 'claimed'],
-      default: 'pending',        // admin must approve before it shows publicly
+      default: 'pending',
     },
 
     isClaimed: {
@@ -58,7 +54,7 @@ const itemSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true,            // auto adds createdAt and updatedAt fields
+    timestamps: true,
   }
 );
 

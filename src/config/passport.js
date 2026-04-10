@@ -1,66 +1,79 @@
 const passport = require("passport");
-const { OIDCStrategy } = require("passport-azure-ad");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../models/user");
 
 function configurePassport() {
-  const clientID = process.env.MICROSOFT_CLIENT_ID;
-  const clientSecret = process.env.MICROSOFT_CLIENT_SECRET;
-  const tenantId = process.env.MICROSOFT_TENANT_ID || "common";
-  const redirectUrl = process.env.MICROSOFT_REDIRECT_URL;
+  const clientID = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const callbackURL = process.env.GOOGLE_CALLBACK_URL;
 
-  if (!clientID || !clientSecret || !redirectUrl) {
+  console.log(
+    "[auth] Google OAuth configured:",
+    Boolean(clientID && clientSecret && callbackURL)
+  );
+
+  if (!clientID || !clientSecret || !callbackURL) {
+    console.error("[auth] Missing Google OAuth env variables");
     return false;
   }
 
   passport.use(
-    new OIDCStrategy(
+    new GoogleStrategy(
       {
-        identityMetadata: `https://login.microsoftonline.com/${tenantId}/v2.0/.well-known/openid-configuration`,
         clientID,
         clientSecret,
-        responseType: "code",
-        responseMode: "form_post",
-        redirectUrl,
-        allowHttpForRedirectUrl: process.env.NODE_ENV !== "production",
-        validateIssuer: false,
-        passReqToCallback: false,
-        scope: ["profile", "email", "openid"]
+        callbackURL
       },
-      async (iss, sub, profile, accessToken, refreshToken, done) => {
+      async (accessToken, refreshToken, profile, done) => {
         try {
-          const microsoftId = profile && profile.oid;
-          const email = profile && profile._json && profile._json.preferred_username;
-          const name = (profile && profile.displayName) || "Microsoft User";
+          // 🔍 Extract safe values
+          const googleId = profile.id;
+          const name = profile.displayName || "No Name";
+          const email =
+            profile.emails && profile.emails.length > 0
+              ? profile.emails[0].value
+              : null;
 
-          if (!microsoftId) return done(new Error("Microsoft profile missing oid"));
-          if (!email) return done(new Error("Microsoft profile missing preferred_username"));
+          if (!email) {
+            return done(new Error("No email found in Google profile"), null);
+          }
 
-          let user = await User.findOne({ microsoftId });
+          // 🔍 Check existing user
+          let user = await User.findOne({ googleId });
 
           if (!user) {
+            // 🆕 Create new user
             user = await User.create({
+              googleId,
               name,
-              email: email.toLowerCase(),
-              microsoftId
+              email
             });
+
+            console.log("[auth] New user created:", email);
+          } else {
+            console.log("[auth] Existing user logged in:", email);
           }
 
           return done(null, user);
-        } catch (err) {
-          return done(err);
+        } catch (error) {
+          console.error("[auth] Error in Google strategy:", error);
+          return done(error, null);
         }
       }
     )
   );
 
-  passport.serializeUser((user, done) => done(null, user.id));
+  // 🔐 Session handling
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
 
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await User.findById(id);
       done(null, user || false);
     } catch (err) {
-      done(err);
+      done(err, null);
     }
   });
 
@@ -68,4 +81,3 @@ function configurePassport() {
 }
 
 module.exports = configurePassport;
-

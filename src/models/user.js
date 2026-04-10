@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -12,9 +13,8 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true
   },
-  microsoftId: {
+  googleId: {
     type: String,
-    required: true,
     unique: true
   },
   role: {
@@ -25,5 +25,4 @@ const userSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
-
 module.exports = mongoose.model("User", userSchema);

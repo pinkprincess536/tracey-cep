@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const { createTestUser } = require("../controllers/user.controller");
+const { createItem, getItems } = require("../controllers/itemController");
 
-router.get("/test-user", createTestUser);
+// Create new item
+router.post("/", createItem);
+
+// Get all items
+router.get("/", getItems);
 
 module.exports = router;

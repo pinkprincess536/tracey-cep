@@ -1,6 +1,5 @@
-const Item = require('../models/item');
+const Item = require("../models/item");
 
-// POST /api/items — Create a new item
 const createItem = async (req, res) => {
   try {
     const {
@@ -10,10 +9,9 @@ const createItem = async (req, res) => {
       type,
       location,
       date,
-      postedBy,
+      imageUrl
     } = req.body;
 
-    // Create the item in MongoDB
     const newItem = await Item.create({
       title,
       description,
@@ -21,12 +19,12 @@ const createItem = async (req, res) => {
       type,
       location,
       date,
-      postedBy,
+      imageUrl
     });
 
     res.status(201).json({
       success: true,
-      message: 'Item posted successfully',
+      message: "Item posted successfully",
       item: newItem,
     });
 
@@ -37,5 +35,46 @@ const createItem = async (req, res) => {
     });
   }
 };
+const getItems = async (req, res) => {
+  try {
+    const { category, type } = req.query;
 
-module.exports = { createItem };
+    let filter = {};
+
+    const allowedCategories = [
+      "Electronics",
+      "Clothing",
+      "Documents",
+      "Keys",
+      "Wallet",
+      "Bags",
+      "Other"
+    ];
+
+    // Strict category check
+    if (category && allowedCategories.includes(category)) {
+      filter.category = category;
+    }
+
+    // Type filter
+    if (type) {
+      filter.type = type;
+    }
+s
+    const items = await Item.find(filter);
+
+    res.status(200).json({
+      success: true,
+      count: items.length,
+      items
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+module.exports = { createItem, getItems };

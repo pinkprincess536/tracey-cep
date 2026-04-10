@@ -3,10 +3,12 @@ const User = require("../models/user");
 // Create test user
 const createTestUser = async (req, res) => {
   try {
+    const nonce = Date.now();
+
     const user = await User.create({
       name: "Test User",
-      email: "test@example.com",
-      microsoftId: "123456"
+      email: `test+${nonce}@example.com`,
+      googleId: `test-${nonce}` // ✅ FIXED
     });
 
     res.status(201).json(user);
