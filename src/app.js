@@ -5,7 +5,8 @@ const passport = require("passport");
 
 const userRoutes = require("./routes/user.routes");
 const authRoutes = require("./routes/auth.routes");
-const itemRoutes = require("./routes/itemRoutes"); // ✅ ADD THIS
+const itemRoutes = require("./routes/itemRoutes"); // 
+const claimRoutes = require("./routes/claim.routes");
 const configurePassport = require("./config/passport");
 
 const app = express();
@@ -55,7 +56,8 @@ app.use(passport.session());
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/auth", authRoutes);
-app.use("/api/items", itemRoutes); // ✅ THIS FIXES YOUR ERROR
+app.use("/api/items", itemRoutes); // 
+app.use("/api/claims", claimRoutes);
 
 // Health check
 app.get("/", (req, res) => {
