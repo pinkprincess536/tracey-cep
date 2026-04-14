@@ -60,7 +60,7 @@ const getItems = async (req, res) => {
     if (type) {
       filter.type = type;
     }
-s
+
     const items = await Item.find(filter);
 
     res.status(200).json({
