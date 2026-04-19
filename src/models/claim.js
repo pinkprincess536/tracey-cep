@@ -8,7 +8,11 @@ const claimSchema = new mongoose.Schema({
   },
   proof: {
     type: String,
-    required: true
+    required: false
+  },
+  imageUrl: {
+    type: String,
+    required: false
   },
   status: {
     type: String,

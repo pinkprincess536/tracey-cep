@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
@@ -15,6 +16,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+// Serve uploaded images statically
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
 // 🔥 TEMP MOCK USER (VERY IMPORTANT FOR NOW)
 app.use((req, res, next) => {

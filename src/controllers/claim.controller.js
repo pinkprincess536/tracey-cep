@@ -4,15 +4,18 @@ const Item = require("../models/item");
 // CREATE claim
 const createClaim = async (req, res) => {
   try {
-    const { itemId, proof } = req.body;
+    const { itemId, proof } = req.body || {};
+    if (!itemId) {
+      return res.status(400).json({ message: "itemId is required in the request body" });
+    }
+    const imageUrl = req.file ? `uploads/${req.file.filename}` : undefined;
 
-    const claim = await Claim.create({
-      itemId,
-      proof
-    });
+    const claimData = { itemId };
+    if (proof) claimData.proof = proof;
+    if (imageUrl) claimData.imageUrl = imageUrl;
 
+    const claim = await Claim.create(claimData);
     res.status(201).json(claim);
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

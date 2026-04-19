@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+// Multer upload middleware (expects field name 'image')
+const upload = require("../middleware/upload");
+
 const {
   createClaim,
   getClaims,
@@ -8,7 +11,8 @@ const {
   rejectClaim
 } = require("../controllers/claim.controller");
 
-router.post("/", createClaim);
+// Use upload.single('image') before the controller so req.file is populated
+router.post("/", upload.single('image'), createClaim);
 router.get("/", getClaims);
 router.patch("/:id/approve", approveClaim);
 router.patch("/:id/reject", rejectClaim);

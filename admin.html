@@ -1,57 +1,628 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Panel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Tracey-CEP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --sidebar-bg: rgba(30, 41, 59, 0.7);
+      --card-bg: rgba(30, 41, 59, 0.6);
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --success-color: #10b981;
+      --success-hover: #059669;
+      --danger-color: #ef4444;
+      --danger-hover: #dc2626;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.15), transparent 25%);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand span {
+      background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-item {
+      padding: 0.875rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: rgba(59, 130, 246, 0.1);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      border-left: 3px solid var(--accent-color);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 2.5rem 3rem;
+      overflow-y: auto;
+    }
+
+    .header {
+      margin-bottom: 2.5rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: var(--text-muted);
+    }
+
+    /* Claims Grid */
+    .claims-category {
+      margin-bottom: 3rem;
+    }
+
+    .category-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .badge.pending { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+    .badge.approved { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .badge.rejected { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+    .claims-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .claim-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .claim-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .claim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .claim-item-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .claim-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .claim-proof {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+      background: rgba(0,0,0,0.2);
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+    }
+
+    .claim-proof strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+    }
+
+    .btn-approve {
+      background: rgba(16, 185, 129, 0.1);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-approve:hover {
+      background: var(--success-color);
+      color: #fff;
+    }
+
+    .btn-reject {
+      background: rgba(239, 68, 68, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-reject:hover {
+      background: var(--danger-color);
+      color: #fff;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      z-index: 50;
+    }
+
+    .toast {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-left: 4px solid var(--accent-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      color: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transform: translateX(120%);
+      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast.success { border-color: var(--success-color); }
+    .toast.error { border-color: var(--danger-color); }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+      background: rgba(0,0,0,0.1);
+      border-radius: 1rem;
+      border: 1px dashed var(--border-color);
+    }
+    
+    /* Loader */
+    .loader {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+      border-top-color: var(--accent-color);
+      animation: spin 1s ease-in-out infinite;
+      margin: 2rem auto;
+    }
+    .card-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .card-image:hover {
+      opacity: 0.8;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
 
-  <h1>Claims Admin Panel</h1>
+  <aside class="sidebar">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-color);"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <span>Tracey Admin</span>
+    </div>
+    
+    <nav>
+      <div class="nav-item active" id="tab-claims" onclick="switchTab('claims')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Claims
+      </div>
+      <div class="nav-item" id="tab-items" onclick="switchTab('items')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        Items
+      </div>
+    </nav>
+  </aside>
 
-  <div id="claims"></div>
+  <main class="main-content">
+    <div class="header">
+      <h1 id="header-title">Review Claims</h1>
+      <p id="header-desc">Manage and process item claims submitted by users.</p>
+    </div>
+
+    <!-- Container for dynamic content -->
+    <div id="content-area">
+      <div style="text-align: center;"><div class="loader"></div></div>
+    </div>
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
 
   <script>
-    async function loadClaims() {
-      const res = await fetch("http://localhost:5000/api/claims");
-      const data = await res.json();
+    const API_BASE = "http://localhost:5000/api";
+    let claimsData = [];
+    let itemsData = [];
+    let currentTab = "claims";
 
-      const container = document.getElementById("claims");
-      container.innerHTML = "";
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchClaims();
+    });
 
-      data.forEach(claim => {
-        const div = document.createElement("div");
-        div.style.border = "1px solid black";
-        div.style.margin = "10px";
-        div.style.padding = "10px";
+    function switchTab(tab) {
+      if (currentTab === tab) return;
+      currentTab = tab;
 
-        div.innerHTML = `
-          <h3>${claim.itemId?.title || "No Title"}</h3>
-          <p><b>Proof:</b> ${claim.proof}</p>
-          <p><b>Status:</b> ${claim.status}</p>
+      document.getElementById('tab-claims').classList.toggle('active', tab === 'claims');
+      document.getElementById('tab-items').classList.toggle('active', tab === 'items');
 
-          <button onclick="approve('${claim._id}')">Approve</button>
-          <button onclick="reject('${claim._id}')">Reject</button>
+      document.getElementById('header-title').innerText = tab === 'claims' ? 'Review Claims' : 'Manage Items';
+      document.getElementById('header-desc').innerText = tab === 'claims' ? 'Manage and process item claims submitted by users.' : 'Review overall items reported as lost or found.';
+
+      if (tab === 'claims') fetchClaims();
+      else fetchItems();
+    }
+
+    async function fetchClaims() {
+      const contentArea = document.getElementById("content-area");
+      contentArea.innerHTML = '<div style="text-align: center;"><div class="loader"></div></div>';
+      
+      try {
+        const res = await fetch(`${API_BASE}/claims`);
+        if (!res.ok) throw new Error("Failed to fetch claims");
+        claimsData = await res.json();
+        if (currentTab === 'claims') renderClaims();
+      } catch (error) {
+        showToast(error.message, 'error');
+        contentArea.innerHTML = `<div class="empty-state">Failed to load claims. Make sure the server is running.</div>`;
+      }
+    }
+
+    function renderClaims() {
+      const contentArea = document.getElementById("content-area");
+      contentArea.innerHTML = "";
+
+      const pending = claimsData.filter(c => c.status === "pending");
+      const approved = claimsData.filter(c => c.status === "approved");
+      const rejected = claimsData.filter(c => c.status === "rejected");
+
+      if (claimsData.length === 0) {
+        contentArea.innerHTML = `<div class="empty-state">No claims found in the system.</div>`;
+        return;
+      }
+
+      // Render Categories
+      if (pending.length > 0) contentArea.appendChild(createCategorySection("Pending Review", pending, "pending", "claim"));
+      if (approved.length > 0) contentArea.appendChild(createCategorySection("Approved", approved, "approved", "claim"));
+      if (rejected.length > 0) contentArea.appendChild(createCategorySection("Rejected", rejected, "rejected", "claim"));
+    }
+
+    function createCategorySection(title, list, statusClass, type = "claim") {
+      const section = document.createElement("div");
+      section.className = "claims-category";
+
+      const header = document.createElement("h2");
+      header.className = "category-title";
+      header.innerHTML = `${title} <span class="badge ${statusClass}">${list.length}</span>`;
+      
+      const grid = document.createElement("div");
+      grid.className = "claims-grid";
+
+      list.forEach(data => {
+        grid.appendChild(type === "claim" ? createClaimCard(data) : createItemCard(data));
+      });
+
+      section.appendChild(header);
+      section.appendChild(grid);
+      return section;
+    }
+
+    function createClaimCard(claim) {
+      const card = document.createElement("div");
+      card.className = "claim-card";
+      
+      const title = claim.itemId?.title || "Unknown Item";
+      const dateStr = new Date(claim.createdAt).toLocaleDateString(undefined, {
+        year: 'numeric', month: 'short', day: 'numeric'
+      });
+
+      let imageHtml = "";
+      if (claim.imageUrl) {
+        // If it's an absolute Windows path (starts with C: or contains \Users\), 
+        // we can't show it easily, so we handle the new relative format 'uploads/...'
+        let imageUrl = claim.imageUrl.replace(/\\/g, '/');
+        
+        // If it's a full path, try to extract just the filename
+        if (imageUrl.includes(':/') || imageUrl.includes('/Users/')) {
+          const parts = imageUrl.split('/');
+          imageUrl = `uploads/${parts[parts.length - 1]}`;
+        }
+
+        imageHtml = `<img src="http://localhost:5000/${imageUrl}" class="card-image" alt="Proof" onclick="window.open(this.src, '_blank')" onerror="console.log('Image failed to load: ' + this.src)">`;
+      }
+
+      let actionsHtml = "";
+      if (claim.status === "pending") {
+        actionsHtml = `
+          <div class="card-actions">
+            <button class="btn btn-approve" onclick="handleAction('${claim._id}', 'approve')">Approve</button>
+            <button class="btn btn-reject" onclick="handleAction('${claim._id}', 'reject')">Reject</button>
+          </div>
         `;
+      }
 
-        container.appendChild(div);
-      });
+      card.innerHTML = `
+        <div class="claim-header">
+          <div>
+            <div class="claim-item-title">${title}</div>
+            <div class="claim-date">Submitted: ${dateStr !== 'Invalid Date' ? dateStr : 'N/A'}</div>
+          </div>
+        </div>
+        ${imageHtml}
+        <div class="claim-proof">
+          <strong>Proof provided:</strong>
+          ${claim.proof || "No additional text provided."}
+        </div>
+        ${actionsHtml}
+      `;
+
+      return card;
     }
 
-    async function approve(id) {
-      await fetch(`http://localhost:5000/api/claims/${id}/approve`, {
-        method: "PATCH"
-      });
-      loadClaims();
+    async function handleAction(id, action) {
+      // Optimistic update
+      const claimIndex = claimsData.findIndex(c => c._id === id);
+      const originalStatus = claimsData[claimIndex].status;
+      claimsData[claimIndex].status = action === "approve" ? "approved" : "rejected";
+      
+      // Re-render UI immediately
+      renderClaims();
+
+      try {
+        const res = await fetch(`${API_BASE}/claims/${id}/${action}`, {
+          method: "PATCH"
+        });
+        
+        if (!res.ok) throw new Error(`Failed to ${action} claim`);
+        
+        showToast(`Claim successfully ${action}d!`, 'success');
+      } catch (error) {
+        // Revert optimistic update on failure
+        claimsData[claimIndex].status = originalStatus;
+        renderClaims();
+        showToast(`Error: ${error.message}`, 'error');
+      }
     }
 
-    async function reject(id) {
-      await fetch(`http://localhost:5000/api/claims/${id}/reject`, {
-        method: "PATCH"
-      });
-      loadClaims();
+    async function fetchItems() {
+      const contentArea = document.getElementById("content-area");
+      contentArea.innerHTML = '<div style="text-align: center;"><div class="loader"></div></div>';
+      
+      try {
+        const res = await fetch(`${API_BASE}/items`);
+        if (!res.ok) throw new Error("Failed to fetch items");
+        const json = await res.json();
+        itemsData = json.items || [];
+        if (currentTab === 'items') renderItems();
+      } catch (error) {
+        showToast(error.message, 'error');
+        contentArea.innerHTML = `<div class="empty-state">Failed to load items. Make sure the server is running.</div>`;
+      }
     }
 
-    loadClaims();
+    function renderItems() {
+      const contentArea = document.getElementById("content-area");
+      contentArea.innerHTML = "";
+
+      const pending = itemsData.filter(i => i.status === "pending");
+      const approved = itemsData.filter(i => i.status === "approved");
+      const rejected = itemsData.filter(i => i.status === "rejected");
+
+      if (itemsData.length === 0) {
+        contentArea.innerHTML = `<div class="empty-state">No items found in the system.</div>`;
+        return;
+      }
+
+      if (pending.length > 0) contentArea.appendChild(createCategorySection("Pending Review", pending, "pending", "item"));
+      if (approved.length > 0) contentArea.appendChild(createCategorySection("Approved", approved, "approved", "item"));
+      if (rejected.length > 0) contentArea.appendChild(createCategorySection("Rejected", rejected, "rejected", "item"));
+    }
+
+    function createItemCard(item) {
+      const card = document.createElement("div");
+      card.className = "claim-card";
+      
+      const dateStr = new Date(item.date || item.createdAt).toLocaleDateString(undefined, {
+        year: 'numeric', month: 'short', day: 'numeric'
+      });
+
+      let imageHtml = "";
+      if (item.imageUrl) {
+        imageHtml = `<img src="${item.imageUrl}" class="card-image" alt="Item" onerror="this.style.display='none'">`;
+      }
+
+      let actionsHtml = "";
+      if (item.status === "pending") {
+        actionsHtml = `
+          <div class="card-actions">
+            <button class="btn btn-approve" onclick="handleItemAction('${item._id}', 'approve')">Approve</button>
+            <button class="btn btn-reject" onclick="handleItemAction('${item._id}', 'reject')">Reject</button>
+          </div>
+        `;
+      }
+
+      const typeBadge = item.type === "lost" ? `<span style="color:#ef4444">[Lost]</span>` : `<span style="color:#10b981">[Found]</span>`;
+
+      card.innerHTML = `
+        <div class="claim-header">
+          <div>
+            <div class="claim-item-title">${typeBadge} ${item.title}</div>
+            <div class="claim-date">Date: ${dateStr !== 'Invalid Date' ? dateStr : 'N/A'}</div>
+          </div>
+        </div>
+        ${imageHtml}
+        <div class="claim-proof">
+          <strong>Category:</strong> ${item.category} <br/>
+          <strong>Location:</strong> ${item.location} <br/><br/>
+          ${item.description}
+        </div>
+        ${actionsHtml}
+      `;
+
+      return card;
+    }
+
+    async function handleItemAction(id, action) {
+      const itemIndex = itemsData.findIndex(i => i._id === id);
+      const originalStatus = itemsData[itemIndex].status;
+      itemsData[itemIndex].status = action === "approve" ? "approved" : "rejected";
+      
+      renderItems();
+
+      try {
+        const res = await fetch(`${API_BASE}/items/${id}/${action}`, {
+          method: "PATCH"
+        });
+        
+        if (!res.ok) throw new Error(`Failed to ${action} item`);
+        
+        showToast(`Item successfully ${action}d!`, 'success');
+      } catch (error) {
+        itemsData[itemIndex].status = originalStatus;
+        renderItems();
+        showToast(`Error: ${error.message}`, 'error');
+      }
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      const icon = type === 'success' 
+        ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`
+        : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>`;
+
+      toast.innerHTML = `${icon} <span>${message}</span>`;
+      container.appendChild(toast);
+
+      // Animate in
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+
+      // Remove after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
   </script>
-
 </body>
 </html>
