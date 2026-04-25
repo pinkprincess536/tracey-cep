@@ -4,28 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | Tracey-CEP</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #0f172a;
-      --sidebar-bg: rgba(30, 41, 59, 0.7);
-      --card-bg: rgba(30, 41, 59, 0.6);
-      --accent-color: #3b82f6;
-      --accent-hover: #2563eb;
+      --bg-color: #FFF0F4;
+      --sidebar-bg: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --accent-color: #9C3B5E;
+      --accent-hover: #85314E;
       --success-color: #10b981;
       --success-hover: #059669;
       --danger-color: #ef4444;
       --danger-hover: #dc2626;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: rgba(255, 255, 255, 0.1);
+      --text-main: #1E1216;
+      --text-muted: #594D52;
+      --border-color: #F3E5EA;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
     }
 
     body {
@@ -34,17 +37,12 @@
       display: flex;
       min-height: 100vh;
       overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.15), transparent 25%);
     }
 
     /* Sidebar */
     .sidebar {
       width: 260px;
       background: var(--sidebar-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
@@ -53,18 +51,17 @@
 
     .brand {
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 3rem;
-      color: #fff;
+      color: #FF5A7E;
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
 
     .brand span {
-      background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      background: none;
+      -webkit-text-fill-color: var(--text-main);
     }
 
     .nav-item {
@@ -72,7 +69,7 @@
       margin-bottom: 0.5rem;
       border-radius: 0.5rem;
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-muted);
       transition: all 0.3s ease;
       display: flex;
@@ -81,8 +78,8 @@
     }
 
     .nav-item:hover, .nav-item.active {
-      background: rgba(59, 130, 246, 0.1);
-      color: #fff;
+      background: var(--bg-color);
+      color: var(--accent-color);
     }
 
     .nav-item.active {
@@ -102,7 +99,7 @@
 
     .header h1 {
       font-size: 2rem;
-      font-weight: 600;
+      font-weight: 800;
       margin-bottom: 0.5rem;
     }
 
@@ -117,7 +114,7 @@
 
     .category-title {
       font-size: 1.25rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 1.5rem;
       display: flex;
       align-items: center;
@@ -129,13 +126,13 @@
     .badge {
       font-size: 0.75rem;
       padding: 0.25rem 0.6rem;
-      border-radius: 999px;
+      border-radius: 9999px;
       font-weight: 600;
     }
 
-    .badge.pending { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
-    .badge.approved { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-    .badge.rejected { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .badge.pending { background: #E1EFFE; color: #1E429F; }
+    .badge.approved { background: #DEF7EC; color: #03543F; }
+    .badge.rejected { background: #FDE8E8; color: #9B1C1C; }
 
     .claims-grid {
       display: grid;
@@ -145,53 +142,53 @@
 
     .claim-card {
       background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border-color);
-      border-radius: 1rem;
+      border-radius: 1.5rem;
       padding: 1.5rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
     }
 
     .claim-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      border-color: #D6C2C9;
     }
 
     .claim-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .claim-item-title {
       font-size: 1.125rem;
-      font-weight: 600;
-      color: #fff;
+      font-weight: 700;
+      color: var(--text-main);
     }
 
     .claim-date {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       margin-top: 0.25rem;
     }
 
     .claim-proof {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
       margin-bottom: 1.5rem;
       flex-grow: 1;
-      background: rgba(0,0,0,0.2);
-      padding: 0.75rem;
-      border-radius: 0.5rem;
+      background: var(--bg-color);
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-color);
     }
 
     .claim-proof strong {
-      color: #fff;
+      color: var(--text-main);
       display: block;
       margin-bottom: 0.25rem;
     }
@@ -203,35 +200,29 @@
 
     .btn {
       flex: 1;
-      padding: 0.6rem 1rem;
+      padding: 0.75rem 1rem;
       border: none;
-      border-radius: 0.5rem;
-      font-weight: 500;
+      border-radius: 9999px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
       font-size: 0.875rem;
     }
 
     .btn-approve {
-      background: rgba(16, 185, 129, 0.1);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .btn-approve:hover {
-      background: var(--success-color);
+      background: #34d399;
       color: #fff;
+    }
+    .btn-approve:hover {
+      background: var(--success-hover);
     }
 
     .btn-reject {
-      background: rgba(239, 68, 68, 0.1);
-      color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-
-    .btn-reject:hover {
-      background: var(--danger-color);
+      background: #f87171;
       color: #fff;
+    }
+    .btn-reject:hover {
+      background: var(--danger-hover);
     }
 
     /* Toast Notification */
@@ -247,34 +238,35 @@
 
     .toast {
       background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-left: 4px solid var(--accent-color);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      color: #fff;
+      border: 1px solid var(--border-color);
+      border-left: 6px solid var(--accent-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      color: var(--text-main);
       padding: 1rem 1.5rem;
-      border-radius: 0.5rem;
+      border-radius: 1rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
       transform: translateX(120%);
       transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      font-weight: 600;
     }
 
     .toast.show {
       transform: translateX(0);
     }
 
-    .toast.success { border-color: var(--success-color); }
-    .toast.error { border-color: var(--danger-color); }
+    .toast.success { border-color: var(--border-color); border-left-color: var(--success-color); }
+    .toast.error { border-color: var(--border-color); border-left-color: var(--danger-color); }
 
     .empty-state {
       text-align: center;
       padding: 3rem;
       color: var(--text-muted);
-      background: rgba(0,0,0,0.1);
-      border-radius: 1rem;
-      border: 1px dashed var(--border-color);
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      border: 1px dashed #CABAC0;
+      font-weight: 600;
     }
     
     /* Loader */
@@ -282,7 +274,7 @@
       display: inline-block;
       width: 2rem;
       height: 2rem;
-      border: 3px solid rgba(255,255,255,0.1);
+      border: 3px solid var(--border-color);
       border-radius: 50%;
       border-top-color: var(--accent-color);
       animation: spin 1s ease-in-out infinite;
@@ -292,9 +284,9 @@
       width: 100%;
       height: 180px;
       object-fit: cover;
-      border-radius: 0.5rem;
+      border-radius: 1rem;
       margin-bottom: 1rem;
-      background: rgba(0,0,0,0.3);
+      background: var(--bg-color);
       border: 1px solid var(--border-color);
       cursor: pointer;
       transition: opacity 0.2s;
@@ -327,6 +319,12 @@
         Items
       </div>
     </nav>
+    <div style="margin-top: auto;">
+      <a href="http://localhost:5000/auth/logout" class="nav-item" style="text-decoration: none; color: var(--danger-color); font-weight: 700;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        Logout
+      </a>
+    </div>
   </aside>
 
   <main class="main-content">
@@ -547,12 +545,26 @@
         imageHtml = `<img src="${item.imageUrl}" class="card-image" alt="Item" onerror="this.style.display='none'">`;
       }
 
-      let actionsHtml = "";
+      let actionsHtml = `
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; display: flex; align-items: center;">
+          <label style="font-size: 0.9rem; font-weight: 600; margin-right: 0.75rem; color: #594D52;">Status Override:</label>
+          <select 
+            onchange="handleItemStatusChange('${item._id}', this.value)" 
+            style="padding: 0.4rem 0.6rem; border-radius: 0.4rem; border: 1px solid #CABAC0; font-size: 0.9rem; font-family: inherit; font-weight: 500; cursor: pointer; flex: 1; outline: none;"
+          >
+            <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>Pending</option>
+            <option value="approved" ${item.status === 'approved' ? 'selected' : ''}>Approved (Publicly Visible)</option>
+            <option value="rejected" ${item.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+            <option value="claimed" ${item.status === 'claimed' ? 'selected' : ''}>Claimed / Resolved</option>
+          </select>
+        </div>
+      `;
+
       if (item.status === "pending") {
-        actionsHtml = `
-          <div class="card-actions">
-            <button class="btn btn-approve" onclick="handleItemAction('${item._id}', 'approve')">Approve</button>
-            <button class="btn btn-reject" onclick="handleItemAction('${item._id}', 'reject')">Reject</button>
+        actionsHtml += `
+          <div class="card-actions" style="margin-top: 0.75rem;">
+            <button class="btn btn-approve" onclick="handleItemAction('${item._id}', 'approve')">Approve Post</button>
+            <button class="btn btn-reject" onclick="handleItemAction('${item._id}', 'reject')">Reject Post</button>
           </div>
         `;
       }
@@ -578,6 +590,30 @@
       return card;
     }
 
+    async function handleItemStatusChange(id, status) {
+      const itemIndex = itemsData.findIndex(i => i._id === id);
+      const originalStatus = itemsData[itemIndex].status;
+      
+      // Optimistic update
+      itemsData[itemIndex].status = status;
+      renderItems();
+
+      try {
+        const res = await fetch(`${API_BASE}/items/${id}/status`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status })
+        });
+        
+        if (!res.ok) throw new Error(`Failed to update to ${status}`);
+        showToast(`Item status successfully forced to ${status}!`, 'success');
+      } catch (error) {
+        itemsData[itemIndex].status = originalStatus;
+        renderItems();
+        showToast(`Error: ${error.message}`, 'error');
+      }
+    }
+
     async function handleItemAction(id, action) {
       const itemIndex = itemsData.findIndex(i => i._id === id);
       const originalStatus = itemsData[itemIndex].status;
@@ -592,7 +628,7 @@
         
         if (!res.ok) throw new Error(`Failed to ${action} item`);
         
-        showToast(`Item successfully ${action}d!`, 'success');
+        showToast(`Item quickly ${action}d!`, 'success');
       } catch (error) {
         itemsData[itemIndex].status = originalStatus;
         renderItems();

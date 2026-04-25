@@ -38,8 +38,8 @@ function configurePassport() {
             return done(new Error("No email found in Google profile"), null);
           }
 
-          // 🔍 Check existing user
-          let user = await User.findOne({ googleId });
+          // 🔍 Check existing user by Google ID or Email
+          let user = await User.findOne({ $or: [{ googleId }, { email }] });
 
           if (!user) {
             // 🆕 Create new user
@@ -48,10 +48,16 @@ function configurePassport() {
               name,
               email
             });
-
             console.log("[auth] New user created:", email);
           } else {
-            console.log("[auth] Existing user logged in:", email);
+            // If user found by email but it doesn't have the googleId linked yet
+            if (!user.googleId) {
+              user.googleId = googleId;
+              await user.save();
+              console.log("[auth] Existing user linked to Google auth:", email);
+            } else {
+              console.log("[auth] Existing user logged in:", email);
+            }
           }
 
           return done(null, user);

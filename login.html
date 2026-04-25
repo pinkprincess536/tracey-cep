@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracey | Welcome Back</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #9C3B5E;
+      --secondary: #CABAC0;
+      --bg-light: #FFF0F4;
+      --text-dark: #1E1216;
+      --text-muted: #594D52;
+      --white: #FFFFFF;
+      --card-border: #F3E5EA;
+      --hover-primary: #85314E;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #FF5A7E;
+      text-decoration: none;
+      margin-bottom: 2rem;
+    }
+
+    .brand-logo svg {
+      width: 32px;
+      height: 32px;
+      color: #3B82F6;
+    }
+
+    .login-container {
+      background: var(--white);
+      padding: 3rem;
+      border-radius: 2rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--card-border);
+    }
+
+    .login-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+
+    .login-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 100%;
+      background-color: var(--white);
+      color: var(--text-dark);
+      border: 1px solid #D6C2C9;
+      padding: 0.9rem;
+      border-radius: 9999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .google-btn:hover {
+      background-color: #F8F9FA;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .google-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .back-home {
+      display: inline-block;
+      margin-top: 2rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-home:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="/index.html" class="brand-logo">
+    Tracey
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+      <path d="M226.5 92.9c14.3 7.3 22.8 23 20.9 39.4-4.5 38.6-43.1 72.8-84.1 76-41 3.2-76.8-25.5-81.2-64.1-1.9-16.4 4.8-32.3 17.5-41.9 22-16.6 61.2-30.7 87.2-16.1zM93.3 221c2.1 16.5 17.6 28.5 34.6 26.8 39-3.9 69.2-39.7 67.4-79.8-1.7-40.1-34.7-69.5-73.7-65.5-17 1.8-29.3 16.7-27.2 33.2 3.6 29 27.6 60.1 24.3 87.9-.7 6-4.6 11.2-10.4 13.7-6.2 2.6-13.4 1.3-18.4-3.3-17-15.6-35.3-38.3-43.3-59.5-2.8-7.5-10.5-11.8-18.3-10.2-7.8 1.6-13.4 8-14 16-.9 11.4-.4 23.4 1.7 35.8 4 23.2 16.2 55.4 34 81 5.4 7.8 15 11 23.8 8.1 19.3-6.4 39.5-10.9 59.8-14zm196.4-123.6c-42 6-77.9 39.3-80.4 79.9-2.5 40.6 30 75.3 72 79.5 42 4.2 79.8-25.8 82.2-66.4 2.4-40.6-31.9-88-73.8-93zm116.8 68.8c17-1.7 32.5 10.3 34.6 26.8-3.3-27.8 20.7-58.9 24.3-87.9 2.1-16.5-10.2-31.4-27.2-33.2-39-4-72 25.4-73.7 65.5-1.8 40.1 28.4 75.9 67.4 79.8 17 1.7 32.5-10.3 34.6-26.8zm-192.5 137c-17.5 9.6-24.2 25.5-22.3 41.9-4.4 38.6-40.2 67.3-81.2 64.1-41-3.2-79.6-37.4-84.1-76-1.9-16.4 6.6-32.1 20.9-39.4 26-14.6 65.2-.5 87.2 16.1 17.5-9.6 24.2-25.5 22.3-41.9z" />
+    </svg>
+  </a>
+
+  <div class="login-container">
+    <h1 class="login-title">Welcome Home</h1>
+    <p class="login-subtitle">Join our community to help reunite lost belongings with their owners.</p>
+
+    <!-- The actual OAuth endpoint -->
+    <a href="http://localhost:5000/auth/google" class="google-btn">
+      <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+        <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+        <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+        <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+        <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571-.008-.006-.016-.013-.024-.019l6.19 5.238C40.925 35.539 44 30.177 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+      </svg>
+      Continue with Google
+    </a>
+
+  </div>
+
+  <a href="/index.html" class="back-home">&larr; Back to Home</a>
+
+</body>
+
+</html>

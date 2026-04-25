@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracey | Reunited with Love</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #9C3B5E;
+      /* Maroon / Red */
+      --secondary: #CABAC0;
+      /* Muted gray/pink */
+      --bg-light: #FFF0F4;
+      /* Soft pink background */
+      --text-dark: #1E1216;
+      /* Deep brown/black */
+      --text-muted: #594D52;
+      /* Grayish text */
+      --white: #FFFFFF;
+      --card-border: #F3E5EA;
+      --hover-primary: #85314E;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--white);
+      color: var(--text-dark);
+      line-height: 1.5;
+    }
+
+    /* General Utilities */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 1.8rem;
+      border-radius: 9999px;
+      /* Pill shape */
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(156, 59, 94, 0.25);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--hover-primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: var(--text-dark);
+      box-shadow: 0 4px 14px rgba(202, 186, 192, 0.25);
+    }
+
+    .btn-secondary:hover {
+      background-color: #BBAAB0;
+      transform: translateY(-2px);
+    }
+
+    /* Header */
+    header {
+      padding: 1.5rem 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 10;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #FF5A7E;
+      text-decoration: none;
+    }
+
+    .logo svg {
+      width: 24px;
+      height: 24px;
+      color: #3B82F6;
+      /* Blue paw color from prompt */
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a.active {
+      color: var(--primary);
+    }
+
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary);
+      border-radius: 2px;
+    }
+
+    /* Hero Section */
+    .hero {
+      background-color: var(--bg-light);
+      padding: 12rem 0 8rem;
+      text-align: center;
+      border-bottom-left-radius: 3rem;
+      border-bottom-right-radius: 3rem;
+    }
+
+    .mascot-container {
+      width: 160px;
+      height: 160px;
+      background: var(--white);
+      border-radius: 50%;
+      margin: 0 auto 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .mascot-container::before {
+      content: '';
+      position: absolute;
+      inset: -15px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      z-index: 0;
+    }
+
+    .mascot {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 3rem;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 0;
+      background: var(--white);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--card-border);
+      border-radius: 1.5rem;
+      padding: 2.5rem 2rem;
+      text-align: left;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .feature-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .icon-pink {
+      background-color: #FFB3CA;
+      color: var(--primary);
+    }
+
+    .icon-gray {
+      background-color: #E2D7DB;
+      color: var(--text-dark);
+    }
+
+    .feature-icon-wrapper svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-dark);
+    }
+
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--bg-light);
+      padding: 3rem 0;
+      border-top-left-radius: 3rem;
+      border-top-right-radius: 3rem;
+      margin-top: 2rem;
+    }
+
+    .footer-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #D6C2C9;
+      padding-bottom: 2px;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .footer-wrapper {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 280px;
+      }
+
+      nav ul {
+        display: none;
+        /* Mobile menu needed in reality */
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="/" class="logo">
+        Tracey
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+          <path
+            d="M226.5 92.9c14.3 7.3 22.8 23 20.9 39.4-4.5 38.6-43.1 72.8-84.1 76-41 3.2-76.8-25.5-81.2-64.1-1.9-16.4 4.8-32.3 17.5-41.9 22-16.6 61.2-30.7 87.2-16.1zM93.3 221c2.1 16.5 17.6 28.5 34.6 26.8 39-3.9 69.2-39.7 67.4-79.8-1.7-40.1-34.7-69.5-73.7-65.5-17 1.8-29.3 16.7-27.2 33.2 3.6 29 27.6 60.1 24.3 87.9-.7 6-4.6 11.2-10.4 13.7-6.2 2.6-13.4 1.3-18.4-3.3-17-15.6-35.3-38.3-43.3-59.5-2.8-7.5-10.5-11.8-18.3-10.2-7.8 1.6-13.4 8-14 16-.9 11.4-.4 23.4 1.7 35.8 4 23.2 16.2 55.4 34 81 5.4 7.8 15 11 23.8 8.1 19.3-6.4 39.5-10.9 59.8-14zm196.4-123.6c-42 6-77.9 39.3-80.4 79.9-2.5 40.6 30 75.3 72 79.5 42 4.2 79.8-25.8 82.2-66.4 2.4-40.6-31.9-88-73.8-93zm116.8 68.8c17-1.7 32.5 10.3 34.6 26.8-3.3-27.8 20.7-58.9 24.3-87.9 2.1-16.5-10.2-31.4-27.2-33.2-39-4-72 25.4-73.7 65.5-1.8 40.1 28.4 75.9 67.4 79.8 17 1.7 32.5-10.3 34.6-26.8zm-192.5 137c-17.5 9.6-24.2 25.5-22.3 41.9-4.4 38.6-40.2 67.3-81.2 64.1-41-3.2-79.6-37.4-84.1-76-1.9-16.4 6.6-32.1 20.9-39.4 26-14.6 65.2-.5 87.2 16.1 17.5-9.6 24.2-25.5 22.3-41.9z" />
+        </svg>
+      </a>
+
+      <nav>
+        <ul>
+          <li><a href="/index.html" class="active">Home</a></li>
+          <li><a href="/items.html">All Items</a></li>
+          <li><a href="/report.html">Report Item</a></li>
+        </ul>
+      </nav>
+
+      <div id="auth-buttons" style="display: flex; gap: 1rem; align-items: center;">
+        <a href="/login.html" class="btn btn-secondary">Login</a>
+        <a href="/login.html" class="btn btn-primary">Sign Up</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="mascot-container">
+        <!-- Using the generated mascot image -->
+        <img src="assets/mascot.png" alt="Tracey Mascot" class="mascot"
+          onerror="this.src='https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=200';">
+      </div>
+
+      <h1 class="hero-title">Bringing what you love back to you.</h1>
+      <p class="hero-subtitle">
+        Report lost items or help others by posting what you've found. A gentle
+        community dedicated to reuniting you with your belongings.
+      </p>
+
+      <div class="hero-actions">
+        <a href="report.html?type=lost" class="btn btn-primary">I Lost Something 🧸</a>
+        <a href="report.html?type=found" class="btn btn-secondary">I Found Something 🔍</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="features-grid">
+
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper icon-pink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Easy Reporting</h3>
+          <p class="feature-desc">Quickly log details of your lost or found item with our simple, gentle form.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper icon-pink">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Smart Matching System</h3>
+          <p class="feature-desc">Our intelligent system connects lost reports with found posts automatically.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper icon-gray">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17 20h5V18c0-3-4-3-4-3m-5 5H3V18c0-3 4-3 4-3m5 5v-1m-3-4a4 4 0 108 0 4 4 0 00-8 0z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Community Powered</h3>
+          <p class="feature-desc">A network of caring neighbors looking out for one another.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper icon-gray">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Safe & Verified</h3>
+          <p class="feature-desc">Secure communication channels to ensure safe handoffs.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-wrapper">
+      <a href="/" class="logo">
+        Tracey
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+          <path
+            d="M226.5 92.9c14.3 7.3 22.8 23 20.9 39.4-4.5 38.6-43.1 72.8-84.1 76-41 3.2-76.8-25.5-81.2-64.1-1.9-16.4 4.8-32.3 17.5-41.9 22-16.6 61.2-30.7 87.2-16.1zM93.3 221c2.1 16.5 17.6 28.5 34.6 26.8 39-3.9 69.2-39.7 67.4-79.8-1.7-40.1-34.7-69.5-73.7-65.5-17 1.8-29.3 16.7-27.2 33.2 3.6 29 27.6 60.1 24.3 87.9-.7 6-4.6 11.2-10.4 13.7-6.2 2.6-13.4 1.3-18.4-3.3-17-15.6-35.3-38.3-43.3-59.5-2.8-7.5-10.5-11.8-18.3-10.2-7.8 1.6-13.4 8-14 16-.9 11.4-.4 23.4 1.7 35.8 4 23.2 16.2 55.4 34 81 5.4 7.8 15 11 23.8 8.1 19.3-6.4 39.5-10.9 59.8-14zm196.4-123.6c-42 6-77.9 39.3-80.4 79.9-2.5 40.6 30 75.3 72 79.5 42 4.2 79.8-25.8 82.2-66.4 2.4-40.6-31.9-88-73.8-93zm116.8 68.8c17-1.7 32.5 10.3 34.6 26.8-3.3-27.8 20.7-58.9 24.3-87.9 2.1-16.5-10.2-31.4-27.2-33.2-39-4-72 25.4-73.7 65.5-1.8 40.1 28.4 75.9 67.4 79.8 17 1.7 32.5-10.3 34.6-26.8zm-192.5 137c-17.5 9.6-24.2 25.5-22.3 41.9-4.4 38.6-40.2 67.3-81.2 64.1-41-3.2-79.6-37.4-84.1-76-1.9-16.4 6.6-32.1 20.9-39.4 26-14.6 65.2-.5 87.2 16.1 17.5-9.6 24.2-25.5 22.3-41.9z" />
+        </svg>
+      </a>
+
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Safety Tips</a>
+        <a href="#">Contact Us</a>
+      </div>
+
+      <div class="copyright">
+        &copy; 2024 Tracey &mdash; Reunited with Love.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      // Find the flex container holding the Login/Sign Up buttons
+      const authButtonsContainer = document.querySelector('header .nav-wrapper div[style*="display: flex; gap: 1rem"]');
+      if (!authButtonsContainer) return;
+
+      try {
+        const res = await fetch("http://localhost:5000/auth/me", {
+          credentials: "include"
+        });
+        const data = await res.json();
+
+        if (data.success && data.user) {
+          // User is logged in
+          authButtonsContainer.innerHTML = `
+            <span style="font-weight: 600; margin-right: 1rem; color: var(--text-dark);">
+              Welcome, ${data.user.name.split(' ')[0]} 👋
+            </span>
+            <a href="http://localhost:5000/auth/logout" class="btn btn-secondary">Logout</a>
+          `;
+        }
+      } catch (err) {
+        console.error("Auth check failed:", err);
+      }
+    });
+
+    // Check URL for auth errors
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error') === 'auth_failed') {
+      alert("Google Login failed. Please try again.");
+    }
+  </script>
+
+</body>
+
+</html>

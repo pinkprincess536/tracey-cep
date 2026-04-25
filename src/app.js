@@ -15,20 +15,15 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+
+// IMPORTANT: Enable CORS with credentials for frontend
+app.use(cors({
+  origin: ["http://127.0.0.1:5500", "http://localhost:5500"],
+  credentials: true
+}));
 
 // Serve uploaded images statically
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
-
-// 🔥 TEMP MOCK USER (VERY IMPORTANT FOR NOW)
-app.use((req, res, next) => {
-  req.user = {
-    _id: "660000000000000000000001" // valid ObjectId format
-  };
-  next();
-});
-  
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "dev_session_secret_change_me",

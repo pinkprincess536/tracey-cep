@@ -8,9 +8,10 @@ const createItem = async (req, res) => {
       category,
       type,
       location,
-      date,
-      imageUrl
+      date
     } = req.body;
+
+    const imageUrl = req.file ? `uploads/${req.file.filename}` : undefined;
 
     const newItem = await Item.create({
       title,
@@ -114,4 +115,31 @@ const rejectItem = async (req, res) => {
   }
 };
 
-module.exports = { createItem, getItems, approveItem, rejectItem };
+const updateItemStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    
+    // Validate status
+    const allowedStatuses = ['pending', 'approved', 'rejected', 'claimed'];
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ success: false, message: "Invalid status" });
+    }
+
+    const item = await Item.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!item) {
+      return res.status(404).json({ success: false, message: "Item not found" });
+    }
+
+    res.json({ success: true, message: `Item status updated to ${status}`, item });
+
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { createItem, getItems, approveItem, rejectItem, updateItemStatus };
